@@ -1,26 +1,26 @@
 import { LitElement, html, css } from 'lit-element';
-import {PageViewElement} from './page-view-element';
+import { PageViewElement } from './page-view-element';
 
-class ViewAbout  extends PageViewElement {
+class ViewAbout extends PageViewElement {
 
-  static get styles() {
-    return css`
+    static get styles() {
+        return css `
       :host {
         display: block;
       }
     `;
-  }
+    }
 
-  static get properties() {
-    return {};
-  }
+    static get properties() {
+        return {};
+    }
 
-  constructor() {
-    super();
-  }
+    constructor() {
+        super();
+    }
 
-  render() {
-    return html`
+    render() {
+        return html `
     <div>
     <h2>About</h2>
         <p>Lorem ipsum dolor sit amet, 
@@ -38,7 +38,7 @@ class ViewAbout  extends PageViewElement {
         </p>
     </div>
     `;
-  }
+    }
 }
 
 customElements.define('view-about', ViewAbout);

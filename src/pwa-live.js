@@ -1,12 +1,15 @@
 import { LitElement, html, css } from 'lit-element';
+import { installRouter } from 'pwa-helpers/router.js';
+
 import './views/view-about';
 import './views/view-home';
 import './views/view-contact';
 import 'dile-tabs/dile-tabs';
 import 'dile-pages/dile-pages';
+
 class PwaLive extends LitElement {
-	static get styles(){
-		return css`
+    static get styles() {
+        return css `
 			:host{
 				display:block;
 				padding: 15px;
@@ -18,51 +21,46 @@ class PwaLive extends LitElement {
 				font-weight: 300px;
 			}
 		`;
-	}
-	static get properties() {
-		return {
-			selected: { type: String },
-			active: {type: Boolean}
-		};
-	}
-    constructor(){
-		super();
-		this.selected = 'home';
-	}
-	render() {
-		return html`
+    }
+    static get properties() {
+        return {
+            page: { type: String },
+            active: { type: Boolean }
+        };
+    }
+    constructor() {
+        super();
+        this.page = 'home';
+        installRouter((location) => this.handleNavigation(location.pathname));
+    }
+    render() {
+        return html `
 			<h1>my app</h1>
-			<!--
-			<nav>
-
-				<a href="#" @click="${this.go}" name="home">Home</a> |
-				<a href="#" @click="${this.go}" name="about">About</a> |
-				<a href="#" @click="${this.go}" name="contact">Contact</a>
-			
-			</nav>
-			-->
-			<dile-tabs selected="${this.selected}" attrForSelected="name" @dile-tabs-selected-changed="${this.selectedChanged}">
+            <nav>
+            <!--
+			<dile-tabs selected="${this.page}" attrForSelected="name" @dile-tabs-selected-changed="${this.selectedChanged}">
 				<dile-tab name="home">Home</dile-tab>
 				<dile-tab name="about">About</dile-tab>
 				<dile-tab name="contact">Contact</dile-tab>
-			</dile-tabs>
-			<dile-pages selected="${this.selected}" attrForSelected="name">
-				<view-home name="home" ?active=${this.selected == 'home'}></view-home>
-				<view-about name="about" ?active=${this.selected =='about'}></view-about>
-				<view-contact name="contact" ?active=${this.selected =='contact'}></view-contact>
+			</dile-tabs>-->
+			<dile-pages selected="${this.page}" attrForSelected="name">
+				<view-home name="home" ?active=${this.page == 'home'}></view-home>
+				<view-about name="about" ?active=${this.page =='about'}></view-about>
+				<view-contact name="contact" ?active=${this.page =='contact'}></view-contact>
 			</dile-pages>
+			</nav>
 		`;
-	}
-	selectedChanged(e){
-		this.selected = e.detail;
-	}
-	go(e){
-		e.preventDefault();
-		let page = e.target.getAttribute("name");
-		this.selected = page;
-		console.log(this.selected);
-
-	}
+    }
+    selectedChanged(e) {
+        this.page = e.detail;
+    }
+    handleNavigation(location) {
+        if (location == '/') {
+            this.page = "home";
+        } else {
+            this.page = location.slice(1);
+        }
+    }
 }
 
 customElements.define('pwa-live', PwaLive);
