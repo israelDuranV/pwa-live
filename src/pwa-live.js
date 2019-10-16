@@ -37,18 +37,19 @@ class PwaLive extends LitElement {
         return html `
 			<h1>my app</h1>
             <nav>
-            <!--
+            
 			<dile-tabs selected="${this.page}" attrForSelected="name" @dile-tabs-selected-changed="${this.selectedChanged}">
 				<dile-tab name="home">Home</dile-tab>
 				<dile-tab name="about">About</dile-tab>
 				<dile-tab name="contact">Contact</dile-tab>
-			</dile-tabs>-->
+			</dile-tabs>
 			<dile-pages selected="${this.page}" attrForSelected="name">
 				<view-home name="home" ?active=${this.page == 'home'}></view-home>
 				<view-about name="about" ?active=${this.page =='about'}></view-about>
 				<view-contact name="contact" ?active=${this.page =='contact'}></view-contact>
 			</dile-pages>
-			</nav>
+            </nav>
+            <button @click="${this.navigate}">Navegar a contact</button>
 		`;
     }
     selectedChanged(e) {
@@ -60,6 +61,10 @@ class PwaLive extends LitElement {
         } else {
             this.page = location.slice(1);
         }
+    }
+    navigate() {
+        window.history.pushState({}, '', '/contact');
+        this.handleNavigation(window.location);
     }
 }
 
